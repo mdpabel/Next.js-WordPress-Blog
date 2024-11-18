@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const dynamic = 'force-no-store';
+export const dynamic = 'force-static';
 
 const Contact = () => {
   return (

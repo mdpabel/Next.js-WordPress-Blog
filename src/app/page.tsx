@@ -1,7 +1,7 @@
 import BlogList from '@/components/blog/blog-list';
 import Newsletter from '@/components/common/news-letter';
 
-export const dynamic = 'force-no-store';
+export const dynamic = 'force-static';
 
 const HomePage = () => {
   return (

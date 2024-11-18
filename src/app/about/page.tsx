@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import me from '@/../public/me.webp';
 
-export const dynamic = 'force-no-store';
+export const dynamic = 'force-static';
 
 const About = () => {
   return (
