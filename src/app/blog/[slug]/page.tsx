@@ -1,7 +1,5 @@
 import React from 'react';
 
-export const dynamic = 'force-no-store';
-
 type Props = {
   params: Promise<{ slug: string }>;
 };
