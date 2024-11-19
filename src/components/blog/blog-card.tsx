@@ -1,16 +1,10 @@
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import React from 'react';
+import { WP_REST_API_Post } from 'wp-types';
 
 type Props = {
-  post: {
-    title: string;
-    date: string;
-    datetime: string;
-    description: string;
-    tags: string[];
-    href: string;
-  };
+  post: WP_REST_API_Post & { tagNames?: string[] }; // Extend the type to include `tagNames`
   style?: 1 | 2;
 };
 
@@ -27,7 +21,9 @@ const BlogCard = ({ post, style = 1 }: Props) => {
         <dl>
           <dt className='sr-only'>Published on</dt>
           <dd className='font-medium text-base text-muted-foreground leading-6'>
-            <time dateTime={post.datetime}>{post.date}</time>
+            <time dateTime={post.date}>
+              {new Date(post.date).toLocaleDateString()}
+            </time>
           </dd>
         </dl>
 
@@ -38,36 +34,41 @@ const BlogCard = ({ post, style = 1 }: Props) => {
             <div>
               {/* Title */}
               <h2 className='font-bold text-2xl leading-8 tracking-tight'>
-                <Link href={post.href} className='text-foreground'>
-                  {post.title}
+                <Link href={`/blog/${post.slug}`} className='text-foreground'>
+                  {post.title.rendered}
                 </Link>
               </h2>
 
               {/* Tags */}
               <div className='flex flex-wrap'>
-                {post.tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/tags/${tag}`}
-                    className='mr-3 font-medium text-sm text-teal-600 hover:text-teal-700 uppercase transition'>
-                    {tag}
-                  </Link>
-                ))}
+                {post.tagNames?.length ? (
+                  post.tagNames.map((tagName) => (
+                    <Link
+                      key={tagName}
+                      href={`/tags/${tagName}`}
+                      className='mr-3 font-medium text-sm text-teal-600 hover:text-teal-700 uppercase transition'>
+                      {tagName}
+                    </Link>
+                  ))
+                ) : (
+                  <span className='text-muted-foreground'>No tags</span>
+                )}
               </div>
             </div>
 
             {/* Description */}
-            <div className='max-w-none text-muted-foreground prose'>
-              {post.description}
-            </div>
+            <div
+              className='max-w-none text-muted-foreground prose'
+              dangerouslySetInnerHTML={{ __html: post.excerpt?.rendered || '' }}
+            />
           </div>
 
           {/* Read More */}
           <div className='font-medium text-base leading-6'>
             <Link
-              href={post.href}
+              href={post.link}
               className='text-teal-600 hover:text-teal-700 transition'
-              aria-label={`Read more: "${post.title}"`}>
+              aria-label={`Read more: "${post.title.rendered}"`}>
               Read more →
             </Link>
           </div>

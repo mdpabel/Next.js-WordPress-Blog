@@ -1,7 +1,6 @@
 import React from 'react';
 import ThemeSwitcher from '../common/theme-switcher';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
 import { navItems } from './navbar';
 import SearchForm from '../common/search-form';
 
