@@ -1,3 +1,4 @@
+import Comments from '@/components/blog/comments';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -60,9 +61,12 @@ const BlogPage = async ({ params }: Props) => {
 
       {/* Content */}
       <div
-        className='max-w-full dark:prose-invert prose'
+        className='pb-10 border-b border-b-neutral-400 max-w-full dark:prose-invert prose'
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
       />
+
+      {/* Comments */}
+      <Comments postId={post.id} />
     </article>
   );
 };
