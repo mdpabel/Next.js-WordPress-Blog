@@ -19,19 +19,13 @@ const BlogList = ({
           <li
             key={index}
             className={cn(
-              'py-12',
+              'py-8',
               index !== posts.length - 1 && 'border-b-neutral-400 border-b',
             )}>
             <BlogCard style={style} post={post} />
           </li>
         ))}
       </ul>
-
-      <div className='flex justify-end pt-6'>
-        <Link href='/blog' className='flex items-center gap-2 text-teal-600'>
-          All Posts <ArrowRight />
-        </Link>
-      </div>
     </div>
   );
 };

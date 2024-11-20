@@ -8,7 +8,7 @@ const BlogsLayout = ({ children }: { children: ReactNode }) => {
         <div className='pt-8 w-full lg:w-96'>
           <BlogsSidebar />
         </div>
-        <div className='w-full'>{children}</div>
+        <div className='flex flex-col w-full'>{children}</div>
       </div>
     </div>
   );

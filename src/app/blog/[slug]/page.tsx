@@ -1,8 +1,9 @@
 import Comments from '@/components/blog/comments';
+import CommentsSkeleton from '@/components/blog/comments-skeleton';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { WP_REST_API_Post } from 'wp-types';
 
 type Props = {
@@ -27,7 +28,7 @@ const BlogPage = async ({ params }: Props) => {
   return (
     <article className='space-y-4 mx-auto py-8 max-w-3xl'>
       {/* Date */}
-      <div className='text-center text-neutral-700 dark:text-neutral-400'>
+      <div className='text-neutral-500 dark:text-neutral-400'>
         Published on {new Date(post.date).toLocaleDateString()}
       </div>
 
@@ -65,8 +66,10 @@ const BlogPage = async ({ params }: Props) => {
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
       />
 
-      {/* Comments */}
-      <Comments postId={post.id} />
+      <Suspense fallback={<CommentsSkeleton />}>
+        {/* Comments */}
+        <Comments postId={post.id} />
+      </Suspense>
     </article>
   );
 };

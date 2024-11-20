@@ -1,15 +1,22 @@
 import BlogList from '@/components/blog/blog-list';
 import Newsletter from '@/components/common/news-letter';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-static';
 
 const HomePage = async () => {
-  const posts = await getPostsWithTagNames({
+  const { posts } = await getPostsWithTagNames({
     categorySlug: 'featured',
     perPage: 100,
     page: 1,
   });
+
+  // Ensure posts is an array before passing it to BlogList
+  if (!Array.isArray(posts)) {
+    throw new Error('Expected posts to be an array');
+  }
 
   return (
     <div className='mx-auto px-6 py-4 max-w-6xl'>
@@ -23,6 +30,11 @@ const HomePage = async () => {
         </p>
       </div>
       <BlogList posts={posts} />
+      <div className='flex justify-end pt-6'>
+        <Link href='/blog' className='flex items-center gap-2 text-teal-600'>
+          All Posts <ArrowRight />
+        </Link>
+      </div>
       <Newsletter />
     </div>
   );

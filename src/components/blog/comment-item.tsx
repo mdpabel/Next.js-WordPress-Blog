@@ -12,8 +12,6 @@ type CommentItemProps = {
 const CommentItem = ({ comment, comments, postId }: CommentItemProps) => {
   const childComments = comments.filter((c) => c.parent === comment.id);
 
-  console.log({ childComments });
-
   return (
     <li className='space-y-4'>
       <div className='flex items-center gap-5'>
@@ -48,7 +46,7 @@ const CommentItem = ({ comment, comments, postId }: CommentItemProps) => {
             __html: comment.content.rendered!,
           }}></p>
 
-        <CommentForm postId={postId} />
+        <CommentForm postId={postId} parentId={comment.id} />
       </div>
 
       <hr />
