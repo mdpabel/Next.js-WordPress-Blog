@@ -1,9 +1,9 @@
+import BlogCardSkeleton from '@/components/blog/blog-card-skeleton';
 import BlogList from '@/components/blog/blog-list';
 import Pagination from '@/components/common/pagination';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
-import React from 'react';
-
-export const dynamic = 'force-static';
+import { Suspense } from 'react';
+import BlogSkeleton from './loading';
 
 const POSTS_PER_PAGE = 5;
 
@@ -12,11 +12,11 @@ type Props = {
 };
 
 const BLogsPage = async ({ searchParams }: Props) => {
-  const page = parseInt((await searchParams).page || '1', 10);
+  const { page } = await searchParams;
 
   const { posts, total } = await getPostsWithTagNames({
     perPage: POSTS_PER_PAGE,
-    page: page,
+    page: +page,
   });
 
   const totalPages = Math.ceil(total / POSTS_PER_PAGE);
@@ -26,13 +26,11 @@ const BLogsPage = async ({ searchParams }: Props) => {
     throw new Error('Expected posts to be an array');
   }
 
-  console.log(posts.length);
-
   return (
-    <div>
+    <Suspense key={page} fallback={<BlogSkeleton />}>
       <BlogList style={2} posts={posts} />
       <Pagination totalPages={totalPages} />
-    </div>
+    </Suspense>
   );
 };
 

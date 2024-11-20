@@ -7,23 +7,26 @@ import React, { Suspense } from 'react';
 import { WP_REST_API_Post } from 'wp-types';
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 const BlogPage = async ({ params }: Props) => {
-  const { slug } = await params;
+  const { slug } = params;
 
   // Fetch the post by slug
-  const post = (await getPostsWithTagNames({
+  const { posts } = await getPostsWithTagNames({
     slug,
-  })) as (WP_REST_API_Post & { tagNames?: string[] }) | null;
+  });
+
+  // Ensure `posts` is a single post
+  const post = (Array.isArray(posts) ? posts[0] : posts) as WP_REST_API_Post & {
+    tagNames?: string[];
+  };
 
   // Handle case where the post is not found
   if (!post) {
     return <div>Post not found</div>;
   }
-
-  console.log(post.tagNames);
 
   return (
     <article className='space-y-4 mx-auto py-8 max-w-3xl'>

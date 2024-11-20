@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import Link from 'next/link';
 import React from 'react';
 import { WP_REST_API_Post } from 'wp-types';
@@ -21,9 +21,7 @@ const BlogCard = ({ post, style = 1 }: Props) => {
         <dl>
           <dt className='sr-only'>Published on</dt>
           <dd className='font-medium text-base text-muted-foreground leading-6'>
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString()}
-            </time>
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
           </dd>
         </dl>
 

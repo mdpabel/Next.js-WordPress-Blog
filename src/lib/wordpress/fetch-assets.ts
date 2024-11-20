@@ -1,39 +1,17 @@
-// Define types for the logo and favicon (site icon)
-interface SiteSettings {
-  site_logo?: string;
-  site_icon?: string;
-}
-
-// Create a utility to fetch the logo and favicon
-export const fetchLogoAndFavicon = async (): Promise<SiteSettings> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Get API URL from environment variable
-
-  if (!apiUrl) {
-    console.error('API URL is not defined in the environment');
-    return {
-      site_logo: '',
-      site_icon: '',
-    };
-  }
-
+export const getSiteIcon = async () => {
   try {
-    // Fetch site settings (logo and favicon)
-    const response = await fetch(`${apiUrl}/wp-json/wp/v2/settings`);
-    const settings: SiteSettings = await response.json();
+    const API_URL = process.env.NEXT_PUBLIC_API_URL!;
+    const response = await fetch(`${API_URL}/wp-json`);
 
-    const logo = settings.site_logo ?? ''; // Default to empty string if no logo found
-    const favicon = settings.site_icon ?? ''; // Default to empty string if no favicon found
+    if (!response.ok) {
+      throw new Error('Failed to fetch site icon');
+    }
 
-    // Return the logo and favicon in a type-safe manner
-    return {
-      site_logo: logo,
-      site_icon: favicon,
-    };
+    const data = await response.json();
+    console.log(data);
+    return data.site_icon_url || null; // Returns the site icon URL or null
   } catch (error) {
-    console.error('Error fetching logo and favicon:', error);
-    return {
-      site_logo: '',
-      site_icon: '',
-    };
+    console.error(error);
+    return null;
   }
 };

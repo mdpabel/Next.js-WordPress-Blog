@@ -1,7 +1,5 @@
 import React from 'react';
 import BlogCard from './blog-card';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { WP_REST_API_Posts } from 'wp-types';
 

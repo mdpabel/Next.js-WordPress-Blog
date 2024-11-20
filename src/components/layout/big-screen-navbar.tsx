@@ -3,19 +3,14 @@ import ThemeSwitcher from '../common/theme-switcher';
 import Link from 'next/link';
 import { navItems } from './navbar';
 import SearchForm from '../common/search-form';
+import Logo from './logo';
 
 const BigScreenNavbar = () => {
   return (
     <nav className='bg-background'>
       <div className='flex justify-between items-center mx-auto px-6 py-4 max-w-6xl'>
         {/* Left Side: Logo */}
-        <div className='font-bold text-primary-foreground text-xl'>
-          <Link
-            href='/'
-            className='text-neutral-900 hover:text-accent-foreground dark:text-white transition'>
-            MyLogo
-          </Link>
-        </div>
+        <Logo />
 
         {/* Right Side: Nav Items, Search, and Theme Switcher */}
         <div className='flex items-center space-x-6'>

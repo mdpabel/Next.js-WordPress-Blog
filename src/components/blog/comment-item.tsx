@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { WP_REST_API_Comment, WP_REST_API_Comments } from 'wp-types';
 import CommentForm from './comment-form';
+import { formatDate } from '@/lib/utils';
 
 type CommentItemProps = {
   comment: WP_REST_API_Comment;
@@ -27,14 +28,7 @@ const CommentItem = ({ comment, comments, postId }: CommentItemProps) => {
             </Link>
           </h4>
           <h5 className='text-neutral-700 text-sm dark:text-white'>
-            {new Date(comment.date).toLocaleString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-            })}
+            {formatDate(comment.date, true)}
           </h5>
         </div>
       </div>
