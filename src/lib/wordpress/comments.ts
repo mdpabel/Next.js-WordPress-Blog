@@ -5,6 +5,12 @@ export const fetchComments = async (postId: number) => {
   try {
     const response = await fetch(
       `${API_URL}/wp-json/wp/v2/comments?post=${postId}`,
+      {
+        cache: 'force-cache',
+        next: {
+          tags: ['comments'],
+        },
+      },
     );
     if (!response.ok) {
       throw new Error('Failed to fetch comments');

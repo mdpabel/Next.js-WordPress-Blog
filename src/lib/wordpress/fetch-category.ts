@@ -6,7 +6,12 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 export const fetchCategories = cache(
   async (): Promise<WP_REST_API_Categories> => {
     try {
-      const response = await fetch(`${API_URL}/wp-json/wp/v2/categories`);
+      const response = await fetch(`${API_URL}/wp-json/wp/v2/categories`, {
+        cache: 'force-cache',
+        next: {
+          tags: ['categories'],
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -26,6 +31,12 @@ export const getCategoryBySlug = cache(
       const API_URL = process.env.NEXT_PUBLIC_API_URL!;
       const response = await fetch(
         `${API_URL}/wp-json/wp/v2/categories?slug=${slug}`,
+        {
+          cache: 'force-cache',
+          next: {
+            tags: ['categories'],
+          },
+        },
       );
 
       if (!response.ok) {

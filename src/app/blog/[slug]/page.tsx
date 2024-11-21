@@ -6,8 +6,6 @@ import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { WP_REST_API_Post } from 'wp-types';
 
-export const dynamic = 'force-static';
-
 export async function generateStaticParams() {
   const { posts } = await getPosts();
 

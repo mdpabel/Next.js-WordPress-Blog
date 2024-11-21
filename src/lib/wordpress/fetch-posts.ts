@@ -73,6 +73,9 @@ export const getPosts = cache(
         `${API_URL}/wp-json/wp/v2/posts?${params.toString()}`,
         {
           cache: 'force-cache',
+          next: {
+            tags: ['posts'],
+          },
         },
       );
 
@@ -117,6 +120,9 @@ export const getPostsWithTagNames = cache(
       const API_URL = process.env.NEXT_PUBLIC_API_URL!;
       const tagsResponse = await fetch(`${API_URL}/wp-json/wp/v2/tags`, {
         cache: 'force-cache',
+        next: {
+          tags: ['posts'],
+        },
       });
 
       if (!tagsResponse.ok) {

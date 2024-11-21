@@ -1,7 +1,5 @@
 import Blogs from '@/components/blog/blogs';
 
-export const dynamic = 'force-static';
-
 type Props = {
   searchParams: Promise<{ page: string; search: string }>;
 };
