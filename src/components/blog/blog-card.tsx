@@ -4,7 +4,9 @@ import React from 'react';
 import { WP_REST_API_Post } from 'wp-types';
 
 type Props = {
-  post: WP_REST_API_Post & { tagNames?: string[] }; // Extend the type to include `tagNames`
+  post: WP_REST_API_Post & {
+    tagDetails?: { name: string; slug: string }[];
+  }; // Extend the type to include `tagNames`
   style?: 1 | 2;
 };
 
@@ -39,13 +41,13 @@ const BlogCard = ({ post, style = 1 }: Props) => {
 
               {/* Tags */}
               <div className='flex flex-wrap'>
-                {post.tagNames?.length ? (
-                  post.tagNames.map((tagName) => (
+                {post.tagDetails?.length ? (
+                  post.tagDetails.map((tagDetail) => (
                     <Link
-                      key={tagName}
-                      href={`/tags/${tagName}`}
+                      key={tagDetail.name}
+                      href={`/tag/${tagDetail.slug}`}
                       className='mr-3 font-medium text-sm text-teal-600 hover:text-teal-700 uppercase transition'>
-                      {tagName}
+                      {tagDetail.name}
                     </Link>
                   ))
                 ) : (

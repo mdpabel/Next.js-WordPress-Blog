@@ -7,7 +7,7 @@ import Logo from './logo';
 
 const BigScreenNavbar = () => {
   return (
-    <nav className='bg-background'>
+    <nav className='lg:block hidden bg-background'>
       <div className='flex justify-between items-center mx-auto px-6 py-4 max-w-6xl'>
         {/* Left Side: Logo */}
         <Logo />

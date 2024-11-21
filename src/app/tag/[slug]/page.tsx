@@ -1,13 +1,16 @@
 import Blogs from '@/components/blog/blogs';
 
 type Props = {
+  params: Promise<{ slug: string }>;
   searchParams: Promise<{ page: string; search: string }>;
 };
 
-const page = async ({ searchParams }: Props) => {
+const page = async ({ params, searchParams }: Props) => {
   const { page, search } = await searchParams;
 
-  return <Blogs page={+page} search={search} />;
+  const { slug } = await params;
+
+  return <Blogs page={+page} tagSlug={slug} search={search} />;
 };
 
 export default page;

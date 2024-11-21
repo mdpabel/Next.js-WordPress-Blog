@@ -3,7 +3,7 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className='py-4'>
+    <footer className='py-8'>
       <div className='flex justify-between items-center mx-auto px-6 max-w-6xl'>
         {/* Left: Copyright Text */}
         <p className='text-gray-600 text-sm dark:text-gray-400'>

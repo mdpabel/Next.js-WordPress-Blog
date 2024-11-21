@@ -1,6 +1,6 @@
 import { fetchComments } from '@/lib/wordpress/comments';
-import CommentItem from './comment-item';
 import CommentForm from './comment-form';
+import CommentItem from './comment-item';
 
 type Props = {
   postId: number;

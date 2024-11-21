@@ -4,13 +4,17 @@ import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-export const dynamic = 'force-static';
+type Props = {
+  searchParams: Promise<{ search: string }>;
+};
 
-const HomePage = async () => {
+const HomePage = async ({ searchParams }: Props) => {
+  const { search } = await searchParams;
   const { posts } = await getPostsWithTagNames({
     categorySlug: 'featured',
     perPage: 100,
     page: 1,
+    search,
   });
 
   // Ensure posts is an array before passing it to BlogList

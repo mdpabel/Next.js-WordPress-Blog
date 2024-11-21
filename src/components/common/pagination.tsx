@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useRouter, useSearchParams } from 'next/navigation';

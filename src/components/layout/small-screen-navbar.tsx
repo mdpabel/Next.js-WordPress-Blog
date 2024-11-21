@@ -10,6 +10,7 @@ import {
 import { FaBars } from 'react-icons/fa';
 import Logo from './logo';
 import { navItems } from './navbar';
+import Link from 'next/link';
 
 const SmallScreenNavbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -46,11 +47,11 @@ const SmallScreenNavbar = () => {
                     }}
                     asChild
                     onClick={handleMenuItemClick}>
-                    <a
+                    <Link
                       href={item.href}
                       className='block py-2 w-full font-medium text-sm text-zinc-800 hover:text-teal-500 dark:text-zinc-100 transition cursor-pointer'>
                       {item.label}
-                    </a>
+                    </Link>
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />

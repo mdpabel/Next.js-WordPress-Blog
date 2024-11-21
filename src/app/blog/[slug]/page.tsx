@@ -1,17 +1,36 @@
-import Comments from '@/components/blog/comments';
-import CommentsSkeleton from '@/components/blog/comments-skeleton';
-import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
+import Comments from '@/components/comment/comments';
+import CommentsSkeleton from '@/components/comment/comments-skeleton';
+import { getPosts, getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { WP_REST_API_Post } from 'wp-types';
 
+export async function generateStaticParams() {
+  const { posts } = await getPosts();
+
+  // Ensure posts is an array before passing it to BlogList
+  if (!Array.isArray(posts)) {
+    return [];
+  }
+
+  console.log(
+    posts.map((post: WP_REST_API_Post) => ({
+      slug: post.slug,
+    })),
+  );
+
+  return posts.map((post: WP_REST_API_Post) => ({
+    slug: post.slug,
+  }));
+}
+
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 const BlogPage = async ({ params }: Props) => {
-  const { slug } = params;
+  const { slug } = await params;
 
   // Fetch the post by slug
   const { posts } = await getPostsWithTagNames({
@@ -20,9 +39,8 @@ const BlogPage = async ({ params }: Props) => {
 
   // Ensure `posts` is a single post
   const post = (Array.isArray(posts) ? posts[0] : posts) as WP_REST_API_Post & {
-    tagNames?: string[];
+    tagDetails?: { name: string; slug: string }[];
   };
-
   // Handle case where the post is not found
   if (!post) {
     return <div>Post not found</div>;
@@ -48,13 +66,13 @@ const BlogPage = async ({ params }: Props) => {
           </Link>
         </div>
         <div className='flex flex-wrap justify-end'>
-          {post.tagNames?.length ? (
-            post.tagNames.map((tagName) => (
+          {post.tagDetails?.length ? (
+            post.tagDetails.map(({ name, slug }) => (
               <Link
-                key={tagName}
-                href={`/tags/${tagName}`}
+                key={slug}
+                href={`/tags/${slug}`}
                 className='mr-3 font-medium text-sm text-teal-600 hover:text-teal-700 uppercase transition'>
-                {tagName}
+                {name}
               </Link>
             ))
           ) : (

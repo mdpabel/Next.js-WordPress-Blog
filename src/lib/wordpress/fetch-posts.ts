@@ -5,11 +5,12 @@ import {
   WP_REST_API_Tags,
 } from 'wp-types';
 import { getCategoryBySlug } from './fetch-category';
+import { fetchTags } from './fetch-tags';
 
 interface GetPostsOptions {
   categories?: number[]; // IDs
   categorySlug?: string; // Slug for lookup
-  tags?: number[];
+  tagSlug?: string; // Single tag slug
   search?: string;
   page?: number;
   perPage?: number;
@@ -27,9 +28,11 @@ export const getPosts = cache(
       const API_URL = process.env.NEXT_PUBLIC_API_URL!;
       const params = new URLSearchParams();
 
+      // If the slug is provided, fetch the specific post
       if (options.slug) {
         params.append('slug', options.slug);
       } else {
+        // Resolve category slug to ID
         if (options.categorySlug) {
           const categoryId = await getCategoryBySlug(options.categorySlug);
           if (categoryId) {
@@ -37,15 +40,35 @@ export const getPosts = cache(
           }
         }
 
-        if (options.categories)
+        // Add categories if provided
+        if (options.categories) {
           params.append('categories', options.categories.join(','));
-        if (options.tags) params.append('tags', options.tags.join(','));
-        if (options.search) params.append('search', options.search);
-        if (options.page) params.append('page', options.page.toString());
-        if (options.perPage)
+        }
+
+        // Resolve single tag slug to ID
+        if (options.tagSlug) {
+          const tags = await fetchTags();
+          const tag = tags.find((t) => t.slug === options.tagSlug);
+          if (tag) {
+            params.append('tags', tag.id.toString());
+          }
+        }
+
+        // Add search query
+        if (options.search) {
+          params.append('search', options.search);
+        }
+
+        // Add pagination
+        if (options.page) {
+          params.append('page', options.page.toString());
+        }
+        if (options.perPage) {
           params.append('per_page', options.perPage.toString());
+        }
       }
 
+      // Fetch posts
       const response = await fetch(
         `${API_URL}/wp-json/wp/v2/posts?${params.toString()}`,
       );
@@ -96,18 +119,22 @@ export const getPostsWithTagNames = cache(
       }
 
       const tags: WP_REST_API_Tags = await tagsResponse.json();
-      const tagMap = new Map(tags.map((tag) => [tag.id, tag.name]));
+
+      // Create a Map with tag id as key and { name, slug } as value
+      const tagMap = new Map(
+        tags.map((tag) => [tag.id, { name: tag.name, slug: tag.slug }]),
+      );
 
       if (Array.isArray(posts)) {
         const enrichedPosts = posts.map((post) => ({
           ...post,
-          tagNames: post.tags?.map((tagId) => tagMap.get(tagId)) || [],
+          tagDetails: post.tags?.map((tagId) => tagMap.get(tagId)) || [], // Includes both name and slug
         }));
         return { posts: enrichedPosts, total };
       } else {
         const enrichedPost = {
           ...posts,
-          tagNames: posts.tags?.map((tagId) => tagMap.get(tagId)) || [],
+          tagDetails: posts.tags?.map((tagId) => tagMap.get(tagId)) || [], // Includes both name and slug
         };
         return { posts: enrichedPost, total };
       }
