@@ -4,6 +4,8 @@ import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-static';
+
 type Props = {
   searchParams: Promise<{ search: string }>;
 };
