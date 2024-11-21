@@ -1,6 +1,7 @@
 import BlogList from '@/components/blog/blog-list';
 import Pagination from '@/components/common/pagination';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
+import { Suspense } from 'react';
 
 type Props = {
   page: number;
@@ -30,7 +31,9 @@ const Blogs = async ({ categorySlug, page, tagSlug, search }: Props) => {
   return (
     <>
       <BlogList style={2} posts={posts} />
-      <Pagination totalPages={totalPages} />
+      <Suspense>
+        <Pagination totalPages={totalPages} />
+      </Suspense>
     </>
   );
 };

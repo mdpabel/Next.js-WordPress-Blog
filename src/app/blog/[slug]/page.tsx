@@ -14,12 +14,6 @@ export async function generateStaticParams() {
     return [];
   }
 
-  console.log(
-    posts.map((post: WP_REST_API_Post) => ({
-      slug: post.slug,
-    })),
-  );
-
   return posts.map((post: WP_REST_API_Post) => ({
     slug: post.slug,
   }));

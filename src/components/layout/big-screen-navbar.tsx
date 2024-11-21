@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ThemeSwitcher from '../common/theme-switcher';
 import Link from 'next/link';
 import { navItems } from './navbar';
@@ -28,7 +28,9 @@ const BigScreenNavbar = () => {
           </ul>
 
           {/* Search Icon */}
-          <SearchForm />
+          <Suspense>
+            <SearchForm />
+          </Suspense>
 
           {/* Theme Switcher */}
           <ThemeSwitcher />
