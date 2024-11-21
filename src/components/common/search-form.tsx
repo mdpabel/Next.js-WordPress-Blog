@@ -40,7 +40,7 @@ const SearchForm = () => {
       </PopoverTrigger>
 
       {/* Popover Content */}
-      <PopoverContent className='border-gray-300 dark:border-gray-600 mr-20 p-2 border rounded-lg'>
+      <PopoverContent className='border-gray-300 dark:border-gray-600 mr-20 px-2 py-1.5 border rounded-lg'>
         <form onSubmit={handleSearch} className='flex items-center space-x-2'>
           <input
             value={search}

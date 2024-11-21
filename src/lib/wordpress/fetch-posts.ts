@@ -71,6 +71,9 @@ export const getPosts = cache(
       // Fetch posts
       const response = await fetch(
         `${API_URL}/wp-json/wp/v2/posts?${params.toString()}`,
+        {
+          cache: 'force-cache',
+        },
       );
 
       if (!response.ok) {
@@ -112,7 +115,9 @@ export const getPostsWithTagNames = cache(
       }
 
       const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-      const tagsResponse = await fetch(`${API_URL}/wp-json/wp/v2/tags`);
+      const tagsResponse = await fetch(`${API_URL}/wp-json/wp/v2/tags`, {
+        cache: 'force-cache',
+      });
 
       if (!tagsResponse.ok) {
         throw new Error('Failed to fetch tags');
