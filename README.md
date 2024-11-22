@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js WordPress Blog
 
-## Getting Started
+![Project Banner](./Screenshot.png)
 
-First, run the development server:
+A modern and blazing-fast blog template built with **Next.js** and integrated with **WordPress REST API** for dynamic content. This project demonstrates the seamless integration of a headless WordPress CMS with Next.js to create a powerful, SEO-friendly, and customizable blogging platform.
+
+---
+
+## 🚀 Live Site
+
+👉 [https://www.nextgenwordpress.com/](https://www.nextgenwordpress.com/)
+
+Explore the live deployment of the blog and experience its performance and features firsthand.
+
+---
+
+## 📂 Repository
+
+👉 [GitHub Repository](https://github.com/mdpabel/Next.js-WordPress-Blog)
+
+Clone or fork the project to explore its codebase and features:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mdpabel/Next.js-WordPress-Blog.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Headless WordPress Integration: Fetch posts, pages, categories, tags, and media dynamically using the WordPress REST API.
+- Comments Support: Allows users to view and submit comments dynamically through the WordPress REST API.
+- Newsletter Integration: Configurable newsletter form to collect user emails.
+- Contact Form: Integration-ready contact form with backend support.
+- SEO Optimization: Supports custom metadata, social sharing previews (Open Graph, Twitter Cards), and integration with Yoast SEO metadata.
+- Dynamic Filtering: Implements filtering by categories, tags, and search functionality.
+- Responsive Design: Fully optimized for desktop, tablet, and mobile devices.
+- Theming Support: Light and dark mode with Tailwind CSS.
+- Fast Performance: Server-side rendering (SSR), static site generation (SSG), and Incremental Static Regeneration (ISR) for blazing-fast page loads.
+- Metadata Generation: Automatically generates SEO-friendly metadata using Yoast SEO data.
+- Media Fetching: Fetch and display media (images, videos) by ID from WordPress.
+- Secure Data Handling: Ensures secure communication between Next.js and WordPress.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧰 Technologies Used
 
-## Learn More
+- Next.js: Framework for React with advanced features like SSR, SSG, and ISR.
+- WordPress REST API: Connect and fetch dynamic content from WordPress.
+- Tailwind CSS: Utility-first CSS framework for rapid UI development.
+- TypeScript: Ensures type safety across the codebase.
+- React Icons: For modern and scalable icons.
+- Vercel: Hosting and deployment platform for the live site.
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Setup and Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Node.js: Version 16 or higher.
+- WordPress Instance: A WordPress site with REST API enabled.
+- API Configuration: Ensure the NEXT_PUBLIC_API_URL, BASE_PATH environment variable points to your WordPress REST API.
