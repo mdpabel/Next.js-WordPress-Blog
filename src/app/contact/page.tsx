@@ -5,7 +5,7 @@ import { Phone } from 'lucide-react';
 
 export const dynamic = 'force-static';
 
-export const metadata = genPageMetadata({ title: 'About' });
+export const metadata = genPageMetadata({ title: 'Contact' });
 
 const Contact = () => {
   return (

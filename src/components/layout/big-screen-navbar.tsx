@@ -19,6 +19,7 @@ const BigScreenNavbar = () => {
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link
+                  prefetch={true}
                   href={item.href}
                   className='font-medium text-foreground hover:text-accent-foreground hover:text-teal-600 transition'>
                   {item.label}
