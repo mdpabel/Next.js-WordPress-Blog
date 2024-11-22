@@ -3,6 +3,7 @@ import Newsletter from '@/components/common/news-letter';
 import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import PreloadResources from './preload-resources';
 
 export const dynamic = 'force-static';
 
@@ -42,6 +43,7 @@ const HomePage = async ({ searchParams }: Props) => {
         </Link>
       </div>
       <Newsletter />
+      <PreloadResources />
     </div>
   );
 };
