@@ -15,7 +15,10 @@ const BlogsSidebar = async () => {
         <ul className='flex flex-row lg:flex-col flex-wrap gap-3 py-4'>
           {categories.map((category, index) => (
             <li key={index}>
-              <Link href={`/category/${category.slug}`} className='space-x-3'>
+              <Link
+                prefetch={true}
+                href={`/category/${category.slug}`}
+                className='space-x-3'>
                 <span>{category.name}</span>
                 <span className='font-semibold text-teal-600'>
                   ({category.count})
@@ -33,7 +36,10 @@ const BlogsSidebar = async () => {
         <ul className='flex flex-row lg:flex-col flex-wrap gap-3 py-4'>
           {tags.map((tag, index) => (
             <li key={index}>
-              <Link href={`/tag/${tag.slug}`} className='space-x-3'>
+              <Link
+                prefetch={true}
+                href={`/tag/${tag.slug}`}
+                className='space-x-3'>
                 <span>{tag.name}</span>
                 <span className='font-semibold text-teal-600'>
                   ({tag.count})
