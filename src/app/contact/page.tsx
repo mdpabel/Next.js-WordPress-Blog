@@ -1,6 +1,9 @@
 import React from 'react';
+import { genPageMetadata } from '../seo';
 
 export const dynamic = 'force-static';
+
+export const metadata = genPageMetadata({ title: 'About' });
 
 const Contact = () => {
   return (

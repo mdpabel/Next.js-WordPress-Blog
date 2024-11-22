@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import ThemeSwitcher from '../common/theme-switcher';
 import Link from 'next/link';
-import { navItems } from './navbar';
 import SearchForm from '../common/search-form';
 import Logo from './logo';
+import { navItems } from '@/app/data/nav-items';
 
 const BigScreenNavbar = () => {
   return (

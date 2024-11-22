@@ -4,8 +4,11 @@ import { FaXTwitter } from 'react-icons/fa6';
 import Image from 'next/image';
 import Link from 'next/link';
 import me from '@/../public/me.webp';
+import { genPageMetadata } from '../seo';
 
 export const dynamic = 'force-static';
+
+export const metadata = genPageMetadata({ title: 'About' });
 
 const About = () => {
   return (

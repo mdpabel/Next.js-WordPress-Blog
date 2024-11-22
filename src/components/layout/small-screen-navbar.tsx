@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { FaBars } from 'react-icons/fa';
 import Logo from './logo';
-import { navItems } from './navbar';
 import Link from 'next/link';
+import { navItems } from '@/app/data/nav-items';
 
 const SmallScreenNavbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);

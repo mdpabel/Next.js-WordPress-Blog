@@ -1,6 +1,18 @@
 import Blogs from '@/components/blog/blogs';
+import { generateTitleFromSlug } from '@/lib/utils';
 import { fetchCategories } from '@/lib/wordpress/fetch-category';
+import { Metadata } from 'next';
 import { WP_REST_API_Category } from 'wp-types';
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata | undefined> {
+  const { slug } = await params;
+
+  return {
+    title: generateTitleFromSlug(slug),
+  };
+}
 
 export async function generateStaticParams() {
   const categories = await fetchCategories();
