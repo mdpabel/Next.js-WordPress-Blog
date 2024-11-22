@@ -25,7 +25,7 @@ export async function generateMetadata({
 
   const post = Array.isArray(posts) ? posts[0] : posts;
 
-  const media = await getMediaById(post?.featured_media!);
+  // const media = await getMediaById(post?.featured_media!);
 
   if (!post) {
     return;
@@ -43,14 +43,14 @@ export async function generateMetadata({
       publishedTime: post.date,
       modifiedTime: post.modified,
       url: './',
-      images: media?.source_url,
+      // images: media?.source_url,
       authors: siteMetadata.author,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title.rendered,
       description: post.excerpt.rendered,
-      images: [media?.source_url!],
+      // images: [media?.source_url!],
     },
   };
 }
