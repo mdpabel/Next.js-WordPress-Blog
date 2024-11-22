@@ -19,10 +19,11 @@ import { WP_REST_API_Posts } from 'wp-types';
 import Spinner from './spinner';
 
 const SearchForm = () => {
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [posts, setPosts] = useState<WP_REST_API_Posts>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [value] = useDebounce(search, 300); // Debounce the search input for better UX
+  const [value] = useDebounce(search, 300);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -41,12 +42,11 @@ const SearchForm = () => {
       }
     };
 
-    getPosts();
-  }, [value]); // Only re-run on the debounced value change
+    if (value) getPosts();
+  }, [value]);
 
   return (
-    <Dialog>
-      {/* Trigger Button */}
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
           aria-label='Search'
@@ -55,10 +55,8 @@ const SearchForm = () => {
         </button>
       </DialogTrigger>
 
-      {/* Dialog Content */}
       <DialogContent className='sm:max-w-[425px] lg:max-w-[550px]'>
         <DialogHeader>
-          {/* Search Input with Icon */}
           <DialogTitle>
             <div className='flex items-center border-gray-300 dark:border-gray-700 dark:bg-gray-800 px-3 py-2 border rounded-md focus-within:ring-2 focus-within:ring-teal-500'>
               {isLoading ? (
@@ -66,7 +64,6 @@ const SearchForm = () => {
               ) : (
                 <Search className='mr-2 w-5 h-5 text-gray-400 dark:text-gray-500' />
               )}
-
               <input
                 type='text'
                 value={search}
@@ -76,20 +73,21 @@ const SearchForm = () => {
               />
             </div>
           </DialogTitle>
-          {/* Description */}
           <DialogDescription className='mt-2 text-gray-500 text-sm dark:text-gray-400'>
             Start typing to search. Press <kbd>ESC</kbd> to close.
           </DialogDescription>
         </DialogHeader>
 
-        {/* Contents */}
         <div className='py-4'>
           <ul className='max-h-[250px] overflow-y-scroll'>
             {posts?.map((post) => (
               <li
                 key={post.id}
                 className='hover:bg-teal-100 dark:hover:bg-teal-800 p-4 rounded-md transition'>
-                <Link href={`/blog/${post.slug}`}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  onClick={() => setOpen(false)} // Close dialog on click
+                >
                   <div>
                     <dl>
                       <dt className='sr-only'>Published on</dt>
@@ -117,9 +115,8 @@ const SearchForm = () => {
           </ul>
         </div>
 
-        {/* Footer */}
         <DialogFooter>
-          <Button variant='outline' onClick={() => console.log('Cancel')}>
+          <Button variant='outline' onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button type='submit' onClick={() => console.log('Search')}>
