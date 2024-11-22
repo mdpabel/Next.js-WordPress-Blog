@@ -136,17 +136,19 @@ export const getPostsWithTagNames = cache(
         tags.map((tag) => [tag.id, { name: tag.name, slug: tag.slug }]),
       );
 
+      // Helper to enrich posts with valid tagDetails
+      const enrichPostWithTags = (post: WP_REST_API_Post) => ({
+        ...post,
+        tagDetails: (post.tags || [])
+          .map((tagId) => tagMap.get(tagId))
+          .filter((tag) => tag !== undefined), // Filter out undefined tags
+      });
+
       if (Array.isArray(posts)) {
-        const enrichedPosts = posts.map((post) => ({
-          ...post,
-          tagDetails: post.tags?.map((tagId) => tagMap.get(tagId)) || [], // Includes both name and slug
-        }));
+        const enrichedPosts = posts.map(enrichPostWithTags);
         return { posts: enrichedPosts, total };
       } else {
-        const enrichedPost = {
-          ...posts,
-          tagDetails: posts.tags?.map((tagId) => tagMap.get(tagId)) || [], // Includes both name and slug
-        };
+        const enrichedPost = enrichPostWithTags(posts);
         return { posts: enrichedPost, total };
       }
     } catch (error) {
