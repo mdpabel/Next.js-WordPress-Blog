@@ -19,15 +19,13 @@ export async function generateMetadata({
   const { slug } = await params;
 
   // Fetch the post by slug
-  const { posts } = await getPostsWithTagNames({
+  const { posts } = await getPosts({
     slug,
   });
 
-  const post = (Array.isArray(posts) ? posts[0] : posts) as WP_REST_API_Post & {
-    tagDetails?: { name: string; slug: string }[];
-  };
+  const post = Array.isArray(posts) ? posts[0] : posts;
 
-  const media = await getMediaById(post.featured_media!);
+  const media = await getMediaById(post?.featured_media!);
 
   if (!post) {
     return;
