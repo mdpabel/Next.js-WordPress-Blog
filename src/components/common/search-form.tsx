@@ -1,62 +1,133 @@
 'use client';
+import { useDebounce } from 'use-debounce';
+import { Button } from '@/components/ui/button';
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { formatDate } from '@/lib/utils';
+import { getPostsWithTagNames } from '@/lib/wordpress/fetch-posts';
 import { Search } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { WP_REST_API_Posts } from 'wp-types';
+import Spinner from './spinner';
 
 const SearchForm = () => {
   const [search, setSearch] = useState('');
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const [posts, setPosts] = useState<WP_REST_API_Posts>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [value] = useDebounce(search, 300); // Debounce the search input for better UX
 
-  // Update the input value when the component mounts or when the query changes
   useEffect(() => {
-    const currentSearch = searchParams.get('search') || '';
-    setSearch(currentSearch);
-  }, [searchParams]);
+    const getPosts = async () => {
+      setIsLoading(true);
+      try {
+        const { posts } = await getPostsWithTagNames({
+          search: value,
+        });
+        if (Array.isArray(posts)) {
+          setPosts(posts as WP_REST_API_Posts);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (search) {
-      params.set('search', search);
-    } else {
-      params.delete('search');
-    }
-
-    router.push(`?${params.toString()}`);
-  };
+    getPosts();
+  }, [value]); // Only re-run on the debounced value change
 
   return (
-    <Popover>
-      {/* Trigger for Search */}
-      <PopoverTrigger>
-        <Search className='w-5 h-5 text-gray-700 hover:text-teal-600 dark:hover:text-teal-400 dark:text-gray-300 transition' />
-      </PopoverTrigger>
+    <Dialog>
+      {/* Trigger Button */}
+      <DialogTrigger asChild>
+        <button
+          aria-label='Search'
+          className='hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-full transition'>
+          <Search className='w-5 h-5 text-gray-700 hover:text-teal-600 dark:hover:text-teal-400 dark:text-gray-300 transition' />
+        </button>
+      </DialogTrigger>
 
-      {/* Popover Content */}
-      <PopoverContent className='border-gray-300 dark:border-gray-600 mr-20 px-2 py-1.5 border rounded-lg'>
-        <form onSubmit={handleSearch} className='flex items-center space-x-2'>
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            type='text'
-            placeholder='Search...'
-            className='border-gray-300 dark:border-gray-600 px-4 py-1.5 border rounded-md focus:ring-2 focus:ring-teal-600 w-full focus:outline-none text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400'
-          />
-          <button
-            type='submit'
-            className='bg-teal-600 hover:bg-teal-700 py-1.5 rounded-md w-32 font-medium text-white transition'>
+      {/* Dialog Content */}
+      <DialogContent className='sm:max-w-[425px] lg:max-w-[550px]'>
+        <DialogHeader>
+          {/* Search Input with Icon */}
+          <DialogTitle>
+            <div className='flex items-center border-gray-300 dark:border-gray-700 dark:bg-gray-800 px-3 py-2 border rounded-md focus-within:ring-2 focus-within:ring-teal-500'>
+              {isLoading ? (
+                <Spinner className='mr-2 w-5 h-5 text-gray-400 dark:text-gray-500' />
+              ) : (
+                <Search className='mr-2 w-5 h-5 text-gray-400 dark:text-gray-500' />
+              )}
+
+              <input
+                type='text'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder='Type to search...'
+                className='bg-transparent w-full text-gray-800 text-sm dark:text-gray-200 outline-none placeholder-gray-400'
+              />
+            </div>
+          </DialogTitle>
+          {/* Description */}
+          <DialogDescription className='mt-2 text-gray-500 text-sm dark:text-gray-400'>
+            Start typing to search. Press <kbd>ESC</kbd> to close.
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* Contents */}
+        <div className='py-4'>
+          <ul className='max-h-[250px] overflow-y-scroll'>
+            {posts?.map((post) => (
+              <li
+                key={post.id}
+                className='hover:bg-teal-100 dark:hover:bg-teal-800 p-4 rounded-md transition'>
+                <Link href={`/blog/${post.slug}`}>
+                  <div>
+                    <dl>
+                      <dt className='sr-only'>Published on</dt>
+                      <dd className='font-medium text-base text-muted-foreground leading-6'>
+                        <time dateTime={post.date}>
+                          {formatDate(post.date)}
+                        </time>
+                      </dd>
+                    </dl>
+                    <h3 className='text-sm'>{post.title.rendered}</h3>
+                  </div>
+                </Link>
+              </li>
+            ))}
+            {isLoading && (
+              <li className='py-4 text-center text-gray-500'>
+                <Spinner />
+              </li>
+            )}
+            {!isLoading && !posts.length && (
+              <li className='py-4 text-center text-gray-500'>
+                No results found.
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Footer */}
+        <DialogFooter>
+          <Button variant='outline' onClick={() => console.log('Cancel')}>
+            Cancel
+          </Button>
+          <Button type='submit' onClick={() => console.log('Search')}>
             Search
-          </button>
-        </form>
-      </PopoverContent>
-    </Popover>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 
