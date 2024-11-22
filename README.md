@@ -1,22 +1,22 @@
 # Next.js WordPress Blog
 
-![Project Banner](./Screenshot.png)
+![Project Banner](https://raw.githubusercontent.com/mdpabel/Next.js-WordPress-Blog/refs/heads/main/Screenshot.png)
 
 A modern and blazing-fast blog template built with **Next.js** and integrated with **WordPress REST API** for dynamic content. This project demonstrates the seamless integration of a headless WordPress CMS with Next.js to create a powerful, SEO-friendly, and customizable blogging platform.
 
 ---
 
-## 🚀 Live Site
+## Live Site
 
-👉 [https://www.nextgenwordpress.com/](https://www.nextgenwordpress.com/)
+[https://www.nextgenwordpress.com/](https://www.nextgenwordpress.com/)
 
 Explore the live deployment of the blog and experience its performance and features firsthand.
 
 ---
 
-## 📂 Repository
+## Repository
 
-👉 [GitHub Repository](https://github.com/mdpabel/Next.js-WordPress-Blog)
+[GitHub Repository](https://github.com/mdpabel/Next.js-WordPress-Blog)
 
 Clone or fork the project to explore its codebase and features:
 
@@ -24,7 +24,7 @@ Clone or fork the project to explore its codebase and features:
 git clone https://github.com/mdpabel/Next.js-WordPress-Blog.git
 ```
 
-## 🛠️ Features
+## Features
 
 - Headless WordPress Integration: Fetch posts, pages, categories, tags, and media dynamically using the WordPress REST API.
 - Comments Support: Allows users to view and submit comments dynamically through the WordPress REST API.
@@ -39,7 +39,7 @@ git clone https://github.com/mdpabel/Next.js-WordPress-Blog.git
 - Media Fetching: Fetch and display media (images, videos) by ID from WordPress.
 - Secure Data Handling: Ensures secure communication between Next.js and WordPress.
 
-## 🧰 Technologies Used
+## Technologies Used
 
 - Next.js: Framework for React with advanced features like SSR, SSG, and ISR.
 - WordPress REST API: Connect and fetch dynamic content from WordPress.
@@ -48,7 +48,7 @@ git clone https://github.com/mdpabel/Next.js-WordPress-Blog.git
 - React Icons: For modern and scalable icons.
 - Vercel: Hosting and deployment platform for the live site.
 
-## 🔧 Setup and Installation
+## Setup and Installation
 
 ### Prerequisites
 
