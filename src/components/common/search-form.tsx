@@ -29,7 +29,7 @@ const SearchForm = () => {
     const getPosts = async () => {
       setIsLoading(true);
       try {
-        const { posts } = await getPostsWithTagNames({
+        const { posts, total } = await getPostsWithTagNames({
           search: value,
         });
         if (Array.isArray(posts)) {
@@ -42,7 +42,7 @@ const SearchForm = () => {
       }
     };
 
-    if (value) getPosts();
+    getPosts();
   }, [value]);
 
   return (
@@ -116,12 +116,32 @@ const SearchForm = () => {
         </div>
 
         <DialogFooter>
-          <Button variant='outline' onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button type='submit' onClick={() => console.log('Search')}>
-            Search
-          </Button>
+          <div className='flex flex-wrap justify-start items-center gap-2 text-sm'>
+            <span className='text-gray-500 dark:text-gray-400'>
+              Try searching for:
+            </span>
+            <Button
+              variant='link'
+              size='sm'
+              onClick={() => setSearch('Malware Removal')}
+              className='px-2 py-1 text-teal-600 dark:text-teal-400'>
+              Malware Removal
+            </Button>
+            <Button
+              variant='link'
+              size='sm'
+              onClick={() => setSearch('WordPress')}
+              className='px-2 py-1 text-teal-600 dark:text-teal-400'>
+              WordPress
+            </Button>
+            <Button
+              variant='link'
+              size='sm'
+              onClick={() => setSearch('Security')}
+              className='px-2 py-1 text-teal-600 dark:text-teal-400'>
+              Security
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
